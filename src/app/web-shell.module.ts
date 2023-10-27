@@ -11,13 +11,15 @@ import { webShellRoutes } from './web-shell.routes';
 /** config angular i18n **/
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
+import {PlaylistsEffect, playlistsFeatureKey, playlistsReducer} from "../lib/playlist/playlists";
+import {playlistTrackFeatureKey, PlaylistTracksEffect, playlistTracksReducer} from "../lib/playlist-tracks";
 // import { extModules } from './build-specifics';
 registerLocaleData(en);
 
-// const rootReducers = {
-//   [playlistsFeatureKey]: playlistsReducer,
-//   [playlistTrackFeatureKey]: playlistTracksReducer
-// };
+const rootReducers = {
+  [playlistsFeatureKey]: playlistsReducer,
+  [playlistTrackFeatureKey]: playlistTracksReducer
+};
 
 @NgModule({
   imports: [
@@ -28,8 +30,9 @@ registerLocaleData(en);
     RouterModule.forRoot(webShellRoutes, {
       scrollPositionRestoration: 'top'
     }),
-    // StoreModule.forRoot(rootReducers),
+    StoreModule.forRoot(rootReducers),
     // EffectsModule.forRoot([ApplicationEffects, PlaylistsEffect, PlaylistTracksEffect]),
+    EffectsModule.forRoot([ PlaylistsEffect, PlaylistTracksEffect]),
     // SettingsModule,
     // ...extModules
   ],
