@@ -21,7 +21,6 @@ export class AlbumComponent {
   isAlbumPlaying$ = this.store.isAlbumPlaying$;
 
   constructor(private store: AlbumStore) {
-    console.log("abc");
   }
 
   toggleAlbum(isPlaying: boolean, uri: string) {

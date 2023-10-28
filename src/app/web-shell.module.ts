@@ -13,6 +13,12 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import {PlaylistsEffect, playlistsFeatureKey, playlistsReducer} from "../lib/playlist/playlists";
 import {playlistTrackFeatureKey, PlaylistTracksEffect, playlistTracksReducer} from "../lib/playlist-tracks";
+import {WebLayoutModule} from "../lib/ui/layout/web-layout.module";
+import {AppInit} from "../lib/shared/app-init.action";
+import {SettingsModule} from "../lib/settings/settings.module";
+import {ApplicationEffects} from "../lib/shared/application.effects";
+import {SvgIconsModule} from "@ngneat/svg-icon";
+import {IconModule} from "../lib/ui/icon/icon.module";
 // import { extModules } from './build-specifics';
 registerLocaleData(en);
 
@@ -24,16 +30,15 @@ const rootReducers = {
 @NgModule({
   imports: [
     CommonModule,
-    // WebLayoutModule,
-    // IconModule,
+    WebLayoutModule,
+    IconModule,
     NoopAnimationsModule,
     RouterModule.forRoot(webShellRoutes, {
       scrollPositionRestoration: 'top'
     }),
     StoreModule.forRoot(rootReducers),
-    // EffectsModule.forRoot([ApplicationEffects, PlaylistsEffect, PlaylistTracksEffect]),
-    EffectsModule.forRoot([ PlaylistsEffect, PlaylistTracksEffect]),
-    // SettingsModule,
+    EffectsModule.forRoot([ApplicationEffects, PlaylistsEffect, PlaylistTracksEffect]),
+    SettingsModule,
     // ...extModules
   ],
   exports: [RouterModule],
@@ -45,14 +50,14 @@ const rootReducers = {
         showDialog: true
       })
     },
-    // {
-    //   provide: APP_INITIALIZER,
-    //   useFactory: (store: Store) => () => {
-    //     store.dispatch(AppInit());
-    //   },
-    //   multi: true,
-    //   deps: [Store],
-    // }
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (store: Store) => () => {
+        store.dispatch(AppInit());
+      },
+      multi: true,
+      deps: [Store],
+    }
   ],
   declarations: []
 })
